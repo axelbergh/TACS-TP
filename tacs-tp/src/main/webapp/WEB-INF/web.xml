@@ -3,5 +3,16 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>TACS TP</display-name>
+  
+<!--  <servlet>-->
+<!--    <servlet-name>RESTConsumer</servlet-name>-->
+<!--    <servlet-class>org.tacs.tp.servlet.RESTConsumer</servlet-class>-->
+<!--  </servlet>-->
+<!---->
+<!--  <servlet-mapping>-->
+<!--    <servlet-name>RESTConsumer</servlet-name>-->
+<!--    <url-pattern>/consume</url-pattern>-->
+<!--  </servlet-mapping>-->
+  
 </web-app>
