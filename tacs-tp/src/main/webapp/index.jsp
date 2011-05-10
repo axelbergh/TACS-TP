@@ -4,7 +4,6 @@
 	<script type="text/javascript">
 		$(document).ready( function(){ 
 			$("input:submit").click(function () {
-				alert("funca");
 				var tags = $("#tags").val();
 				$.getJSON("https://api.mercadolibre.com/sites/MLA/search?q="+tags+"&callback=?", hacerAlgoConDatos);
 				$("#tagsToSearch").text(tags);
@@ -14,7 +13,7 @@
 			});
 			$("#loading").ajaxComplete( 
 				function(event,request, settings) { 
-					$(this).hide(); 
+					$(this).hide();
 				});      
 		});
 		
@@ -22,7 +21,7 @@
 			//DO SOMETHING!
 			$("#resultados").empty(); 
 			$.each(data[2].results, function(i,item){ 
-				$("#resultados").append(item.id + "<br/>");
+				$("#resultados").append(item.title + "<br/>");
 			}); 
 		}
 	</script>
@@ -30,21 +29,20 @@
 	
 </head>
 
-<body>
-<h1>Consumir API de MercadoLibre</h1>
-
-<!--#buscador -->
-<fieldset><legend>Consumer de la API de ML</legend>
-<div id="search"><label for="tags">Tags: </label> <input
-    type="text" id="tags" value="" /> <input type="submit"
-    value="Buscar" /> <span> </span>
-</div>
-</fieldset>
-
-<!--#resultado -->
-<fieldset><legend>Resultados para: <span
-    id="tagsToSearch"></span></legend>
-<div id="resultados"></div>
-</fieldset>
-</body>
+	<body>
+		<h1>Consumir API de MercadoLibre</h1>
+		
+		<!--#buscador -->
+		<fieldset><legend>Consumer de la API de ML</legend>
+			<div id="search"><label for="tags">Tags: </label> <input
+		    	type="text" id="tags" value="" /> <input type="submit"
+		    	value="Buscar" /> <span> </span>
+			</div>
+		</fieldset>
+	
+		<!--#resultado -->
+		<fieldset><legend>Resultados para: <span id="tagsToSearch"></span></legend>
+			<div id="resultados"></div>
+		</fieldset>
+	</body>
 </html>
