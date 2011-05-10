@@ -5,6 +5,7 @@
       <path-set>
         <pathsSet class="linked-hash-set">
           <string>index.jsp</string>
+          <string>META-INF/MANIFEST.MF</string>
           <string>WEB-INF/web.xml</string>
         </pathsSet>
       </path-set>
