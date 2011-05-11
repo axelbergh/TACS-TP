@@ -8,13 +8,15 @@
 				$.getJSON("https://api.mercadolibre.com/sites/MLA/search?q="+tags+"&callback=?", hacerAlgoConDatos);
 				$("#tagsToSearch").text(tags);
 			});
+
+			$("#loading").hide();
 			$("#loading").ajaxStart(function(){ 
 				$(this).show(); 
 			});
 			$("#loading").ajaxComplete( 
 				function(event,request, settings) { 
-					$(this).hide();
-				});      
+					$(this).hide(); 
+				});
 		});
 		
 		function hacerAlgoConDatos(data){
@@ -37,6 +39,7 @@
 		    	type="text" id="tags" value="" /> <input type="submit"
 		    	value="Buscar" /> <span> </span>
 			</div>
+			<div id="loading"> loading ... </div>
 		</fieldset>
 	
 		<!--#resultado -->
