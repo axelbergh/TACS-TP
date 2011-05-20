@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcatProjectProperties>
+    <rootDir>/</rootDir>
+    <exportSource>false</exportSource>
+    <reloadable>true</reloadable>
+    <redirectLogger>false</redirectLogger>
+    <updateXml>true</updateXml>
+    <warLocation></warLocation>
+    <extraInfo></extraInfo>
+    <webPath>/tacs-tp</webPath>
+    <webClassPathEntries>
+        <webClassPathEntry>/home/korva/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar</webClassPathEntry>
+        <webClassPathEntry>/tacs-tp/target/classes</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/charsets.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/ext/dnsns.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/ext/gnome-java-bridge.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/ext/localedata.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/ext/pulse-java.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/ext/sunjce_provider.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/ext/sunpkcs11.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/jce.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/jsse.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/resources.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/rhino.jar</webClassPathEntry>
+        <webClassPathEntry>/usr/lib/jvm/java-6-openjdk/jre/lib/rt.jar</webClassPathEntry>
+        <webClassPathEntry>org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER</webClassPathEntry>
+    </webClassPathEntries>
+</tomcatProjectProperties>

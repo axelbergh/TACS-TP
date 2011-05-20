@@ -2,6 +2,7 @@
 	<head>
 	<link rel="stylesheet" href="ml.css" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script type="text/javascript" src="chico-0.6.2.js"></script>
 		
 		<script type="text/javascript">    
 			var paginaActual = 1;
@@ -12,35 +13,72 @@
 			var categoria = "";
 			var paisId = "MLA";  //TODO: Parametrizar luego
 			
+			
+			function completarComboPaises(){
+				$.getJSON("https://api.mercadolibre.com/sites?callback=?", function(response){
+					$("#listaPaises").html("");
+					$.each(response[2], function(i, country) {
+			        	$("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\")'>" + country.name + "</li>").appendTo("#listaPaises");
+			        });  
+					
+				});
+				
+			}
+	    	
+			function cambiarPaisA(countryId){
+				paisId = countryId;
+				actualizarCategoriasPrincipales();
+				resetearBusquedas();
+			}
+			
+
+			function resetearBusquedas(){
+				$('#key').val("");
+				$("#listado").html("");
+				$("#paginador").html("");
+				categoria = "";
+				paginaActual = 1;
+				resultadosTotales = 0;
+			}
+			
 			function buscar(key){
 				busqueda = key;
-				ActualizarBusqueda();
+				if (busqueda == null) busqueda = "";
+				actualizarBusqueda();
 			}
 			
 			function filtrarPorCategoria(categoriaId){
 				categoria = categoriaId;
-				ActualizarBusqueda();
+				actualizarCategoriasSecundarias();
+				actualizarBusqueda();
+			}
+			
+			function actualizarCategoriasSecundarias(){
+				$.getJSON("https://api.mercadolibre.com/categories/" + categoria + "?callback=?", function(response){
+					mostrarCategorias(response[2].children_categories);
+				});
 			}
 			
 			function actualizarCategoriasPrincipales(){
-				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "?callback=?", mostrarCategoriasPrincipales);
+				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "?callback=?", function(response){
+					mostrarCategorias(response[2].categories);
+				});
 			}
 			
-			
-			function mostrarCategoriasPrincipales(response){	 
+			function mostrarCategorias(listadoCategorias){	 
 	            $("#categorias").html("");
-	            $.each(response[2].categories, function(i, category) {
+	            $.each(listadoCategorias, function(i, category) {
 	            	$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo("#categorias");
 	            });  
 			}
 			
-			function ActualizarBusqueda(){
+			function actualizarBusqueda(){
 				var parameters = "?q=" + busqueda +
 								 "&category=" + categoria + 
 						         "&limit=" + cantidadPorPagina + 
 						         "&offset="+ offset;
 				
-				$.getJSON("https://api.mercadolibre.com/sites/MLA/search" + parameters + "&callback=?", mostrarResultados);
+				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "/search" + parameters + "&callback=?", mostrarResultados);
 			}
 	
 			function mostrarResultados(response){
@@ -103,6 +141,8 @@
 			
 			$(document).ready(function(){
 				actualizarCategoriasPrincipales();
+				completarComboPaises();
+				$(".demoDropdown").dropdown();
 			});
 			
 		</script>
@@ -116,38 +156,45 @@
 				<td align="center">
 					<h3>TACS - Mercado Libre</h3> 
 				</td>
+				<td>
+					<div class="demoDropdown">
+					    <span>País</span>
+					    <ul id="listaPaises"></ul>
+				    </div>
+				</td>
 			</tr>
 		</table>
 		<br/>
 		
-		<div class="box"> 
-			<ol id="categorias" summary="Listado de Categorias"></ol>
-		</div>
-		 
-		<br/>
 		
 		<table width="100%">	
 			<tr>
-				<td>
+				<td colspan="100%">
 					Ingrese una palabra para efectuar la búsqueda (ejemplos: "argentina","brasil","boca","ford")
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="100%">
 					<input type="text" name="key" id="key"/> 
 					<input type="button" class="btn secondary" value="buscar" onclick="buscar($('#key').val())"/>
 				</td>
 			</tr>
+			<tr>
+				<td valign="top" align="left">
+					<div class="box"> 
+						<ol id="categorias" summary="Listado de Categorias"></ol>
+					</div>
+		 		</td>
+		 		<td>
+					Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.
+					<br/>
+		 			<div class="box"> 
+						<ol id="listado" summary="Listado de Resultados"></ol>
+						<div id="paginador"></div>
+					</div> 
+		 		</td>
+			</tr>
 		</table>
-		
-		<br/>
-		Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.
-		<br/>
-		
-		<div class="box"> 
-			<ol id="listado" summary="Listado de Resultados"></ol>
-			<div id="paginador"></div>
-		</div> 
-	
+
 	</body>
 </html>
