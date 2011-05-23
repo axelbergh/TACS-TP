@@ -180,7 +180,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td valign="top" align="left">
+				<td class=categorias_box valign="top" align="left">
 					<div class="box"> 
 						<ol id="categorias" summary="Listado de Categorias"></ol>
 					</div>
