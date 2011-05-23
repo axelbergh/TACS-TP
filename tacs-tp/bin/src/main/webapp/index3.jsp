@@ -12,6 +12,7 @@
 			var busqueda = "";
 			var categoria = "";
 			var paisId = "MLA";  //TODO: Parametrizar luego
+			var breadcrumb = new Array();
 			
 			
 			function completarComboPaises(){
@@ -48,9 +49,20 @@
 			}
 			
 			function filtrarPorCategoria(categoriaId){
+				actualizarBreadcrumb(categoriaId);
 				categoria = categoriaId;
 				actualizarCategoriasSecundarias();
 				actualizarBusqueda();
+			}
+
+			function actualizarBreadcrumb(categoriaId){
+				if (categoria != ""){
+					$('#breadcrumb').html("");
+					$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo('#breadcrumb');				
+				}
+				else{
+					//bla
+				}
 			}
 			
 			function actualizarCategoriasSecundarias(){
@@ -182,11 +194,12 @@
 			<tr>
 				<td valign="top" align="left">
 					<div class="box"> 
+						<div id=breadcrumb></div>
 						<ol id="categorias" summary="Listado de Categorias"></ol>
 					</div>
 		 		</td>
 		 		<td>
-					Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.
+					<!--Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.-->
 					<br/>
 		 			<div class="box"> 
 						<ol id="listado" summary="Listado de Resultados"></ol>
