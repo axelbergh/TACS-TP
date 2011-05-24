@@ -56,13 +56,6 @@
 			}
 
 			function actualizarBreadcrumb(categoriaId){
-				if (categoria != ""){
-					$('#breadcrumb').html("");
-					$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo('#breadcrumb');				
-				}
-				else{
-					//bla
-				}
 			}
 			
 			function actualizarCategoriasSecundarias(){

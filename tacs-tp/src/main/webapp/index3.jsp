@@ -49,22 +49,32 @@
 			}
 			
 			function filtrarPorCategoria(categoriaId){
-				actualizarBreadcrumb(categoriaId);
 				categoria = categoriaId;
 				actualizarCategoriasSecundarias();
 				actualizarBusqueda();
 			}
-
-			function actualizarBreadcrumb(categoriaId){
+			
+			function actualizarBreadcrumb(root_categories){
+				$("#breadcrumb").html("");
+				
+				if($('#breadcrumb').html() == ""){
+					$("<li><a href='javascript:actualizarCategoriasPrincipales()'> Categorias Principales </li>").appendTo("#breadcrumb");
+				}
+				
+	            $.each(root_categories, function(i, category) {
+	            	$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo("#breadcrumb");
+	            });
 			}
 			
 			function actualizarCategoriasSecundarias(){
 				$.getJSON("https://api.mercadolibre.com/categories/" + categoria + "?callback=?", function(response){
 					mostrarCategorias(response[2].children_categories);
+					actualizarBreadcrumb(response[2].path_from_root);
 				});
 			}
 			
 			function actualizarCategoriasPrincipales(){
+				$('#breadcrumb').html("");
 				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "?callback=?", function(response){
 					mostrarCategorias(response[2].categories);
 				});
