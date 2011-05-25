@@ -1,5 +1,7 @@
 <html>
 	<head>
+	
+	<link rel="stylesheet" href="FB_ML.css" />
 	<link rel="stylesheet" href="ml.css" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 	<script type="text/javascript" src="chico-0.6.2.js"></script>
@@ -18,15 +20,17 @@
 				$.getJSON("https://api.mercadolibre.com/sites?callback=?", function(response){
 					$("#listaPaises").html("");
 					$.each(response[2], function(i, country) {
-			        	$("#listaPaises").append("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\")'>" + country.name + "</li>");
+			        	$("#listaPaises").append("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\", \"" + country.name + "\")'>" + country.name + "</li>");
 			        });  
 					
 				});
 				
 			}
 	    	
-			function cambiarPaisA(countryId){
+			function cambiarPaisA(countryId, countryName){
 				paisId = countryId;
+				$('#bandera').removeClass();
+				$('#bandera').addClass(countryName);
 				actualizarCategoriasPrincipales();
 				resetearBusquedas();
 			}
@@ -209,6 +213,9 @@
 					    <span>País</span>
 					    <ul id="listaPaises"></ul>
 				    </div>
+				</td>
+				<td class="banderita">
+					<li id="bandera" class="argentina"/>
 				</td>
 			</tr>
 		</table>
