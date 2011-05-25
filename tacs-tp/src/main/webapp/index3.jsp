@@ -7,11 +7,10 @@
 		<script type="text/javascript">    
 			var paginaActual = 1;
 			var cantidadPorPagina = 10;
-			var offset = (paginaActual-1) * cantidadPorPagina;
 			var resultadosTotales = 0;
 			var busqueda = "";
 			var categoria = "";
-			var paisId = "MLA";  //TODO: Parametrizar luego
+			var paisId = "MLA";  //Se esta inicializando con argentina, pero luego se puede cambiar desde el combo
 			var breadcrumb = new Array();
 			
 			
@@ -91,16 +90,19 @@
 				var parameters = "?q=" + busqueda +
 								 "&category=" + categoria + 
 						         "&limit=" + cantidadPorPagina + 
-						         "&offset="+ offset;
+						         "&offset="+ calcularOffset();
 				
 				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "/search" + parameters + "&callback=?", mostrarResultados);
 			}
 	
 			function irAPagina(pagina){
 				paginaActual = pagina;
-				ActualizarBusqueda();
+				actualizarBusqueda();
 			}
 			
+			function calcularOffset(){
+				return (paginaActual-1) * cantidadPorPagina;
+			}
 			function mostrarResultados(response){
 	            
 	            resultadosTotales = response[2].paging.total;
@@ -126,6 +128,7 @@
 	            });  
 	            armarPaginador();
 			}
+			
 			
 			function traducir(code){
 				switch (code) {
