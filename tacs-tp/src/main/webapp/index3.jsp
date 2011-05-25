@@ -18,7 +18,7 @@
 				$.getJSON("https://api.mercadolibre.com/sites?callback=?", function(response){
 					$("#listaPaises").html("");
 					$.each(response[2], function(i, country) {
-			        	$("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\")'>" + country.name + "</li>").appendTo("#listaPaises");
+			        	$("#listaPaises").append("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\")'>" + country.name + "</li>");
 			        });  
 					
 				});
@@ -49,22 +49,28 @@
 			
 			function filtrarPorCategoria(categoriaId){
 				categoria = categoriaId;
+				paginaActual = 1;
 				actualizarCategoriasSecundarias();
 				actualizarBusqueda();
 			}
 			
+			function volverACategoriaPrincipal(){
+				categoria = "";
+				paginaActual = 1;
+				actualizarCategoriasPrincipales();
+				actualizarBusqueda();
+				
+			};
 			function actualizarBreadcrumb(root_categories){
-				$("#breadcrumb").html("");
+				$("#breadcrumb").html("<a href='javascript:volverACategoriaPrincipal()'> Categorias Principales</a>");
 				
-				if($('#breadcrumb').html() == ""){
-					$("<li><a href='javascript:actualizarCategoriasPrincipales()'> Categorias Principales </li>").appendTo("#breadcrumb");
-				}
-				
-	            $.each(root_categories, function(i, category) {
-	            	$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo("#breadcrumb");
+				$.each(root_categories, function(i, category) {
+					$("#breadcrumb").append(" > <a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</a>");
+					
 	            });
 			}
 			
+		
 			function actualizarCategoriasSecundarias(){
 				$.getJSON("https://api.mercadolibre.com/categories/" + categoria + "?callback=?", function(response){
 					mostrarCategorias(response[2].children_categories);
@@ -82,8 +88,12 @@
 			function mostrarCategorias(listadoCategorias){	 
 	            $("#categorias").html("");
 	            $.each(listadoCategorias, function(i, category) {
-	            	$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo("#categorias");
+	            	$("#categorias").append("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>");
 	            });  
+			}
+			
+			function calcularOffset(){
+				return (paginaActual-1) * cantidadPorPagina;
 			}
 			
 			function actualizarBusqueda(){
@@ -95,21 +105,16 @@
 				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "/search" + parameters + "&callback=?", mostrarResultados);
 			}
 	
-			function irAPagina(pagina){
-				paginaActual = pagina;
-				actualizarBusqueda();
-			}
 			
-			function calcularOffset(){
-				return (paginaActual-1) * cantidadPorPagina;
-			}
+			
 			function mostrarResultados(response){
 	            
 	            resultadosTotales = response[2].paging.total;
 	            
 	            $("#listado").html("");
 	            $.each(response[2].results, function(i, item) {
-	            	$("<li><table><tr height='100px'>"+
+	            	 $("#listado").append(
+	            		"<li><table><tr height='100px'>"+
 	            			"<td>" +
 	            				"<a href='" + item.permalink + "' target='_blank'>" +
 	            					"<img src='" + item.thumbnail + "'>" +
@@ -124,8 +129,9 @@
 	        				"<td>" + traducir(item.condition) + "</td>" + 
 	        				"<td>" + traducir(item.buying_mode) + "</td>" + 
 	        				"<td>" + item.address.city_name + "</td>" +                 			 	
-	           		  "</tr></table></li>").appendTo("#listado");
+	           		  "</tr></table></li>");
 	            });  
+	            
 	            armarPaginador();
 			}
 			
@@ -144,6 +150,12 @@
 			}
 			
 			
+		// Paginador	
+			
+			function irAPagina(pagina){
+				paginaActual = pagina;
+				actualizarBusqueda();
+			}
 			
 			function armarPaginador(pagAnt, pagDesp){
 				$("#paginador").html("");
@@ -171,6 +183,9 @@
 				
 				$("#paginador").html(paginadorHTML);	
 			}
+			
+			
+		// Fin paginador
 			
 			$(document).ready(function(){
 				actualizarCategoriasPrincipales();
@@ -208,6 +223,11 @@
 			</tr>
 			<tr>
 				<td colspan="100%">
+					<div id=breadcrumb></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="100%">
 					<input type="text" name="key" id="key"/> 
 					<input type="button" class="btn secondary" value="buscar" onclick="buscar($('#key').val())"/>
 				</td>
@@ -215,7 +235,6 @@
 			<tr>
 				<td valign="top" align="left">
 					<div class="box"> 
-						<div id=breadcrumb></div>
 						<ol id="categorias" summary="Listado de Categorias"></ol>
 					</div>
 		 		</td>
