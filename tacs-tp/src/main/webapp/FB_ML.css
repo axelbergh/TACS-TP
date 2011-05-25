@@ -1,5 +1,5 @@
  
-.banderita li{margin:10px 0;position:relative;background:url(http://img.mlstatic.com/org-img/homesnw/img/spriteflags2.gif) no-repeat;}
+.banderita li{margin:10px 0;position:relative;background:url(images/spriteflags2.gif) no-repeat;}
 .banderita li.argentina {background-position:0 0;}
 .banderita li.brasil {background-position:0 -15px;}
 .banderita li.colombia {background-position:0 -30px;}
