@@ -96,6 +96,11 @@
 				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "/search" + parameters + "&callback=?", mostrarResultados);
 			}
 	
+			function irAPagina(pagina){
+				paginaActual = pagina;
+				ActualizarBusqueda();
+			}
+			
 			function mostrarResultados(response){
 	            
 	            resultadosTotales = response[2].paging.total;
@@ -114,18 +119,28 @@
 	    						"</a>"+
 	        				"</td>" +
 	        				"<td>" + item.price + "</td>" +             				
-	        				"<td>" + item.condition + "</td>" + 
-	        				"<td>" + item.buying_mode + "</td>" + 
+	        				"<td>" + traducir(item.condition) + "</td>" + 
+	        				"<td>" + traducir(item.buying_mode) + "</td>" + 
 	        				"<td>" + item.address.city_name + "</td>" +                 			 	
 	           		  "</tr></table></li>").appendTo("#listado");
 	            });  
 	            armarPaginador();
 			}
 			
-			function irAPagina(pagina){
-				paginaActual = pagina;
-				ActualizarBusqueda();
+			function traducir(code){
+				switch (code) {
+				case "new":
+					return "Nuevo";
+					break;
+				case "buy_it_now":
+					return "Compra Inmediata";
+					break;
+				default:
+					return code;
+				}
 			}
+			
+			
 			
 			function armarPaginador(pagAnt, pagDesp){
 				$("#paginador").html("");
