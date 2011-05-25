@@ -233,7 +233,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td valign="top" align="left">
+				<td valign="top" align="left" width="200px">
 					<div class="box"> 
 						<ol id="categorias" summary="Listado de Categorias"></ol>
 					</div>
