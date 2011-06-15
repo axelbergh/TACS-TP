@@ -1,16 +1,18 @@
 <html>
-<head>
-<link rel="stylesheet" href="ml.css" />
-<script type="text/javascript"	src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script type="text/javascript" src="chico-0.6.2.js"></script>
-<script type="text/javascript">    
+	<head>
+	
+	<link rel="stylesheet" href="FB_ML.css" />
+	<link rel="stylesheet" href="ml.css" />
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script type="text/javascript" src="chico-0.6.2.js"></script>
+		
+		<script type="text/javascript">    
 			var paginaActual = 1;
 			var cantidadPorPagina = 10;
-			var offset = (paginaActual-1) * cantidadPorPagina;
 			var resultadosTotales = 0;
 			var busqueda = "";
 			var categoria = "";
-			var paisId = "MLA";  //TODO: Parametrizar luego
+			var paisId = "MLA";  //Se esta inicializando con argentina, pero luego se puede cambiar desde el combo
 			var breadcrumb = new Array();
 			
 			
@@ -18,15 +20,17 @@
 				$.getJSON("https://api.mercadolibre.com/sites?callback=?", function(response){
 					$("#listaPaises").html("");
 					$.each(response[2], function(i, country) {
-			        	$("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\")'>" + country.name + "</li>").appendTo("#listaPaises");
+			        	$("#listaPaises").append("<li><a href='javascript:cambiarPaisA(\"" + country.id + "\", \"" + country.name + "\")'>" + country.name + "</li>");
 			        });  
 					
 				});
 				
 			}
 	    	
-			function cambiarPaisA(countryId){
+			function cambiarPaisA(countryId, countryName){
 				paisId = countryId;
+				$('#bandera').removeClass();
+				$('#bandera').addClass(countryName);
 				actualizarCategoriasPrincipales();
 				resetearBusquedas();
 			}
@@ -49,22 +53,28 @@
 			
 			function filtrarPorCategoria(categoriaId){
 				categoria = categoriaId;
+				paginaActual = 1;
 				actualizarCategoriasSecundarias();
 				actualizarBusqueda();
 			}
 			
+			function volverACategoriaPrincipal(){
+				categoria = "";
+				paginaActual = 1;
+				actualizarCategoriasPrincipales();
+				actualizarBusqueda();
+				
+			};
 			function actualizarBreadcrumb(root_categories){
-				$("#breadcrumb").html("");
+				$("#breadcrumb").html("<a href='javascript:volverACategoriaPrincipal()'> Categorias Principales</a>");
 				
-				if($('#breadcrumb').html() == ""){
-					$("<li><a href='javascript:actualizarCategoriasPrincipales()'> Categorias Principales </li>").appendTo("#breadcrumb");
-				}
-				
-	            $.each(root_categories, function(i, category) {
-	            	$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo("#breadcrumb");
+				$.each(root_categories, function(i, category) {
+					$("#breadcrumb").append(" > <a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</a>");
+					
 	            });
 			}
 			
+		
 			function actualizarCategoriasSecundarias(){
 				$.getJSON("https://api.mercadolibre.com/categories/" + categoria + "?callback=?", function(response){
 					mostrarCategorias(response[2].children_categories);
@@ -82,26 +92,33 @@
 			function mostrarCategorias(listadoCategorias){	 
 	            $("#categorias").html("");
 	            $.each(listadoCategorias, function(i, category) {
-	            	$("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>").appendTo("#categorias");
+	            	$("#categorias").append("<li><a href='javascript:filtrarPorCategoria(\"" + category.id + "\")'>" + category.name + "</li>");
 	            });  
+			}
+			
+			function calcularOffset(){
+				return (paginaActual-1) * cantidadPorPagina;
 			}
 			
 			function actualizarBusqueda(){
 				var parameters = "?q=" + busqueda +
 								 "&category=" + categoria + 
 						         "&limit=" + cantidadPorPagina + 
-						         "&offset="+ offset;
+						         "&offset="+ calcularOffset();
 				
 				$.getJSON("https://api.mercadolibre.com/sites/" + paisId + "/search" + parameters + "&callback=?", mostrarResultados);
 			}
 	
+			
+			
 			function mostrarResultados(response){
 	            
 	            resultadosTotales = response[2].paging.total;
 	            
 	            $("#listado").html("");
 	            $.each(response[2].results, function(i, item) {
-	            	$("<li><table><tr height='100px'>"+
+	            	 $("#listado").append(
+	            		"<li><table><tr height='100px'>"+
 	            			"<td>" +
 	            				"<a href='" + item.permalink + "' target='_blank'>" +
 	            					"<img src='" + item.thumbnail + "'>" +
@@ -113,17 +130,35 @@
 	    						"</a>"+
 	        				"</td>" +
 	        				"<td>" + item.price + "</td>" +             				
-	        				"<td>" + item.condition + "</td>" + 
-	        				"<td>" + item.buying_mode + "</td>" + 
+	        				"<td>" + traducir(item.condition) + "</td>" + 
+	        				"<td>" + traducir(item.buying_mode) + "</td>" + 
 	        				"<td>" + item.address.city_name + "</td>" +                 			 	
-	           		  "</tr></table></li>").appendTo("#listado");
+	           		  "</tr></table></li>");
 	            });  
+	            
 	            armarPaginador();
 			}
 			
+			
+			function traducir(code){
+				switch (code) {
+				case "new":
+					return "Nuevo";
+					break;
+				case "buy_it_now":
+					return "Compra Inmediata";
+					break;
+				default:
+					return code;
+				}
+			}
+			
+			
+		// Paginador	
+			
 			function irAPagina(pagina){
 				paginaActual = pagina;
-				ActualizarBusqueda();
+				actualizarBusqueda();
 			}
 			
 			function armarPaginador(pagAnt, pagDesp){
@@ -153,6 +188,9 @@
 				$("#paginador").html(paginadorHTML);	
 			}
 			
+			
+		// Fin paginador
+			
 			$(document).ready(function(){
 				actualizarCategoriasPrincipales();
 				completarComboPaises();
@@ -160,52 +198,63 @@
 			});
 			
 		</script>
+	
+		
+	</head>
 
+	<body>
+		<table width="100%">
+			<tr>
+				<td align="center">
+					<h3>TACS - Mercado Libre</h3> 
+				</td>
+				<td>
+					<div class="demoDropdown">
+					    <span>País</span>
+					    <ul id="listaPaises"></ul>
+				    </div>
+				</td>
+				<td class="banderita">
+					<li id="bandera" class="argentina"/>
+				</td>
+			</tr>
+		</table>
+		<br/>
+		
+		
+		<table width="100%">	
+			<tr>
+				<td colspan="100%">
+					Ingrese una palabra para efectuar la búsqueda (ejemplos: "argentina","brasil","boca","ford")
+				</td>
+			</tr>
+			<tr>
+				<td colspan="100%">
+					<div id=breadcrumb></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="100%">
+					<input type="text" name="key" id="key"/> 
+					<input type="button" class="btn secondary" value="buscar" onclick="buscar($('#key').val())"/>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top" align="left" width="200px">
+					<div class="box"> 
+						<ol id="categorias" summary="Listado de Categorias"></ol>
+					</div>
+		 		</td>
+		 		<td>
+					<!--Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.-->
+					<br/>
+		 			<div class="box"> 
+						<ol id="listado" summary="Listado de Resultados"></ol>
+						<div id="paginador"></div>
+					</div> 
+		 		</td>
+			</tr>
+		</table>
 
-</head>
-
-<body>
-<table width="100%">
-	<tr>
-		<td align="center">
-		<h3>TACS - Mercado Libre</h3>
-		</td>
-		<td>
-		<div class="demoDropdown"><span>País</span>
-		<ul id="listaPaises"></ul>
-		</div>
-		</td>
-	</tr>
-</table>
-<br />
-
-
-<table width="100%">
-	<tr>
-		<td colspan="100%">Ingrese una palabra para efectuar la búsqueda
-		(ejemplos: "argentina","brasil","boca","ford")</td>
-	</tr>
-	<tr>
-		<td colspan="100%"><input type="text" name="key" id="key" /> <input
-			type="button" class="btn secondary" value="buscar"
-			onclick="buscar($('#key').val())" /></td>
-	</tr>
-	<tr>
-		<td id=tabla_categorias valign="top" align="left">
-		<div class="box">
-		<div id=breadcrumb></div>
-		<ol id="categorias" summary="Listado de Categorias"></ol>
-		</div>
-		</td>
-		<td id=tabla_resultados><!--Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.-->
-		<br />
-		<div class="box">
-		<ol id="listado" summary="Listado de Resultados"></ol>
-		<div id="paginador"></div>
-		</div>
-		</td>
-	</tr>
-</table>
-
-</body>
+	</body>
 </html>

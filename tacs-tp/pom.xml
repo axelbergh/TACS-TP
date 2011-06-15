@@ -7,23 +7,23 @@
 	<version>1.0</version>
 	<name>tacs-tp</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<developers>
 		<developer>
 			<name>Christian Marcusa</name>
 			<id>126.691-3</id>
 		</developer>
-		
+
 		<developer>
 			<name>Diego Berkovics</name>
 			<id>118483-0</id>
 		</developer>
-		
+
 		<developer>
 			<name>Matias Corbanini</name>
 			<id>120700-3</id>
 		</developer>
-		
+
 		<developer>
 			<name>Leonardo Souto</name>
 			<id>117189-6</id>
@@ -39,10 +39,9 @@
 		</dependency>
 
 	</dependencies>
-	
 	<build>
 		<finalName>tacs-tp</finalName>
-		
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
