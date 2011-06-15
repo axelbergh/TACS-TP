@@ -1,0 +1,53 @@
+DATOS:
+
+GAE ID: tacs-laboredcrime.appspot.com
+
+
+-Instalar Gae:
+
+Bajarse el SDK para java de aca:
+http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Java
+
+-Instalar el plugin para eclipse:
+
+Aca esta el repo para instalarlo desde el eclipse, help->new software:
+http://code.google.com/eclipse/docs/getting_started.html#installing
+
+Se les van a agregar unos iconitos de google en el eclipse.
+
+-Configurar el plugin:
+
+Antes que nada, pararse en el directorio raiz del proyecto y hacer:
+
+sudo mvn clean
+sudo mvn install
+
+Click derecho en el proyecto -> Google -> App Engine Settings
+
+1) En "Web Application" marcar "This project has a war directory" y poner target como el directorio.
+
+2) En App Engine, checkear para que use GAE. Click en Configure SDKs y ponen el path donde esta el SDK que se bajaron anteriormente.
+
+En Application ID, deberian poner el id (solo tacs-laboredcrime) pero les va a tirar el siguiente error (si no les tira por favor diganme como hicieron jeje):
+
+Cannot set application ID (appengine-web.xml is missing).
+
+Copiar: web.xml y appengine-web.xml desde "src/main/webapp/WEB-INF". Meterlo en la carpeta target/WEB-INF (que se deberia generar con el punto 1 / haciendo "sudo mvn install"). 
+
+-Deployar:
+ 
+VER LA NOTA AL FINAL ANTES QUE NADA.
+Para deployar, lo mas feliz, es darle click al icono de la derecha que si hacen un mouseover les dice "Deploy App Engine Project"
+Les va a pedir que se logeen con su cuenta de gmail y listo.
+
+
+NOTA:
+El problema aca es el xml appengine-web.xml. Si se hace un sudo mvn clean se borra la carpeta target, y despues con install se genera de nuevo, pero el xml este no queda en target/WEB-INF. Se genera en target/tacs-tp/WEB-INF.
+
+Entonces, antes de deployar HAY QUE COPIAR MANUALMENTE el web.xml y el appengine-web.xml a target/WEB-INF.
+
+No se si: 1) deberia configurar algo (maven, gae plugin, no se) para que estos xml se generen en target/WEB-INF
+2) hacer que el plugin lea el xml directamente desde target/tacs-tp/WEB-INF
+
+
+	
