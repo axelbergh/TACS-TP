@@ -5,14 +5,14 @@
 <web-app>
   <display-name>TACS TP</display-name>
   
-<!--  <servlet>-->
-<!--    <servlet-name>RESTConsumer</servlet-name>-->
-<!--    <servlet-class>org.tacs.tp.servlet.RESTConsumer</servlet-class>-->
-<!--  </servlet>-->
-<!---->
-<!--  <servlet-mapping>-->
-<!--    <servlet-name>RESTConsumer</servlet-name>-->
-<!--    <url-pattern>/consume</url-pattern>-->
-<!--  </servlet-mapping>-->
+ <servlet>
+   <servlet-name>RESTConsumer</servlet-name>
+   <servlet-class>org.tacs.tp.servlet.RESTConsumer</servlet-class>
+ </servlet>
+
+ <servlet-mapping>
+   <servlet-name>RESTConsumer</servlet-name>
+   <url-pattern>/consume</url-pattern>
+ </servlet-mapping>
   
 </web-app>

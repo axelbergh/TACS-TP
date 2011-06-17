@@ -24,7 +24,8 @@ sudo mvn install
 
 Click derecho en el proyecto -> Google -> App Engine Settings
 
-1) En "Web Application" marcar "This project has a war directory" y poner target como el directorio.
+1) En "Web Application" marcar "This project has a war directory" y poner "target/tacs-tp" como el directorio.
+(antes yo ponia target y por eso me leia el WEB-INF de target, con esto se resuelve teoricamente)
 
 2) En App Engine, checkear para que use GAE. Click en Configure SDKs y ponen el path donde esta el SDK que se bajaron anteriormente.
 
@@ -32,6 +33,7 @@ En Application ID, deberian poner el id (solo tacs-laboredcrime) pero les va a t
 
 Cannot set application ID (appengine-web.xml is missing).
 
+@deprecated
 Copiar: web.xml y appengine-web.xml desde "src/main/webapp/WEB-INF". Meterlo en la carpeta target/WEB-INF (que se deberia generar con el punto 1 / haciendo "sudo mvn install"). 
 
 -Deployar:
@@ -40,7 +42,7 @@ VER LA NOTA AL FINAL ANTES QUE NADA.
 Para deployar, lo mas feliz, es darle click al icono de la derecha que si hacen un mouseover les dice "Deploy App Engine Project"
 Les va a pedir que se logeen con su cuenta de gmail y listo.
 
-
+@deprecated
 NOTA:
 El problema aca es el xml appengine-web.xml. Si se hace un sudo mvn clean se borra la carpeta target, y despues con install se genera de nuevo, pero el xml este no queda en target/WEB-INF. Se genera en target/tacs-tp/WEB-INF.
 
