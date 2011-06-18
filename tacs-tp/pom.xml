@@ -35,6 +35,11 @@
 			<id>java.net</id>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
+		<repository>
+      		<id>objectify-appengine</id>
+      		<url>http://objectify-appengine.googlecode.com/svn/maven</url>
+    	</repository>
+		
 	</repositories>
 	
 	<dependencies>
@@ -49,6 +54,11 @@
 			<artifactId>javaee-api</artifactId>
 			<version>6.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.objectify</groupId>
+			<artifactId>objectify</artifactId>
+			<version>3.0</version>
 		</dependency>
 	</dependencies>
 	<build>
