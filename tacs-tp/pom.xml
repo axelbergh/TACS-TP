@@ -63,7 +63,15 @@
 	</dependencies>
 	<build>
 		<finalName>tacs-tp</finalName>
-
+	
+		<resources>
+			<resource>
+				<targetPath>test</targetPath>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/test</directory>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -71,6 +79,13 @@
 				<configuration>
 					<url>http://localhost:8080/manager</url>
 					<server>local_tomcat</server>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 		</plugins>
