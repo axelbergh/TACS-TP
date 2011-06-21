@@ -16,18 +16,17 @@ public class DAO extends DAOBase {
 	}
 	
 	static {
-		ObjectifyService.register(Car.class);
+		ObjectifyService.register(Item.class);
 	}
 
-	public Car getMyCar(String id) {
-		Car found = ofy().get(Car.class, Long.valueOf(id));
+	public Item getItem(String id) {
+		Item found = ofy().get(Item.class, Long.valueOf(id));
 		return found;
 	}
 
-	public Long putMyCar(String vin, String color) {
-		Car porsche = new Car(vin, color);
-		ofy().put(porsche);
-		return porsche.id;
+	public void putItem(Item item) {
+		ofy().put(item);
+		System.out.println("item guardado: " + item.getId());
 	}
 
 }
