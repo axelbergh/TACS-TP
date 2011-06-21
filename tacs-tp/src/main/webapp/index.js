@@ -123,7 +123,12 @@ var paginaActual = 1;
 	        				"<td>" + item.price + "</td>" +             				
 	        				"<td>" + traducir(item.condition) + "</td>" + 
 	        				"<td>" + traducir(item.buying_mode) + "</td>" + 
-	        				"<td>" + item.address.city_name + "</td>" +                 			 	
+	        				"<td>" + item.address.city_name + "</td>" +     
+	        				"<td>"  + 
+        						"<a href='consume?action=put&id=" + escape(item.id) + "&nombre=" + escape(item.title) + "&fotoURL=" + escape(item.thumbnail) + "&linkURL=" + escape(item.permalink) + "' target='_blank'>" +
+        							"Agregar a favoritos" +
+    							"</a>"+
+							"</td>" +     
 	           		  "</tr></table></li>");
 	            });  
 	            
