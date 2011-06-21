@@ -135,7 +135,6 @@ var paginaActual = 1;
 	            armarPaginador();
 			}
 			
-			
 			function traducir(code){
 				switch (code) {
 				case "new":
@@ -171,7 +170,7 @@ var paginaActual = 1;
 				var paginaLimiteSup = Math.min(cantPaginas,(paginaActual + pagDesp));
 	
 				
-				var paginadorHTML = "<h2>Paginación</h2><ul class='pagination'>";
+				var paginadorHTML = "<h2>Paginaciï¿½n</h2><ul class='pagination'>";
 				if (paginaActual > 1) paginadorHTML += "<li><a type='prev' href='javascript:irAPagina(" + (paginaActual-1) + ")'>&lt; Anterior</a></li>";
 				for(pagina = paginaLimiteInf ; pagina <= paginaLimiteSup ; pagina++){
 					var selected = "";

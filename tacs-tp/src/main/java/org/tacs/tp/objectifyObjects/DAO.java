@@ -24,9 +24,9 @@ public class DAO extends DAOBase {
 		return found;
 	}
 
-	public void putItem(Item item) {
+	public String putItem(Item item) {
 		ofy().put(item);
-		System.out.println("item guardado: " + item.getId());
+		return "item guardado: " + item.getId();
 	}
 
 }

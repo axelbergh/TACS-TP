@@ -22,27 +22,27 @@ public class RESTConsumer extends HttpServlet {
 
 		String accion = request.getParameter("action");
 		if("get".equals(accion)){
-			recuperar(request);
+			recuperar(request, response.getWriter());
 		}
 		else if("put".equals(accion)){
-			guardar(request);
+			guardar(request, response.getWriter());
 		}
 	}
 
-	public void guardar(HttpServletRequest  request){
+	public void guardar(HttpServletRequest  request, PrintWriter out){
 		String id = request.getParameter("id");
 		String nombre = request.getParameter("nombre");
 		String fotoURL = request.getParameter("fotoURL");
 		String linkURL = request.getParameter("linkURL");
 		
 		Item item = new Item(id, nombre, fotoURL, linkURL);
-		d.putItem(item);
+		out.println(d.putItem(item));
 	}
 	
-	public void recuperar(HttpServletRequest  request){
+	public void recuperar(HttpServletRequest  request, PrintWriter out){
 		String id = request.getParameter("id");
 		Item item = d.getItem(id);
-		System.out.println(item.getId() + " - " + item.getNombre() + " - " + item.getFotoURL() + " - " + item.getLinkURL());
+		out.println(item.getId() + " - " + item.getNombre() + " - " + item.getFotoURL() + " - " + item.getLinkURL());
 		
 	}
 	
