@@ -1,5 +1,7 @@
 package org.tacs.tp.objectifyObjects;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.DAOBase;
 
@@ -19,9 +21,18 @@ public class DAO extends DAOBase {
 		ObjectifyService.register(Item.class);
 	}
 
-	public Item getItem(String id) {
-		Item found = ofy().get(Item.class, Long.valueOf(id));
-		return found;
+	public Item getOrCreateItem(HttpServletRequest request) {
+		Item found = ofy().get(Item.class, request.getParameter("id"));
+		if (found == null){
+			String id = request.getParameter("id");
+			String nombre = request.getParameter("nombre");
+			String fotoURL = request.getParameter("fotoURL");
+			String linkURL = request.getParameter("linkURL");
+			return new Item(id, nombre, fotoURL, linkURL);
+		}
+		else{
+			return found;
+		}
 	}
 
 	public String putItem(Item item) {

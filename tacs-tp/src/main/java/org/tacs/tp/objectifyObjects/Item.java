@@ -3,7 +3,7 @@ package org.tacs.tp.objectifyObjects;
 import javax.persistence.*;
 
 public class Item {
-	
+
 	@Id
 	private String id;
 	private String nombre;
