@@ -4,8 +4,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import org.tacs.tp.objectifyObjects.DAO;
-import org.tacs.tp.objectifyObjects.Item;
+import org.tacs.tp.objectifyObjects.*;
 
 public class RESTConsumer extends HttpServlet {
 
@@ -30,14 +29,18 @@ public class RESTConsumer extends HttpServlet {
 	}
 
 	public void guardar(HttpServletRequest  request, PrintWriter out){
-		Item item = d.getOrCreateItem(request);
+
+		String id = request.getParameter("id");
+		String nombre = request.getParameter("nombre");
+		String fotoURL = request.getParameter("fotoURL");
+		String linkURL = request.getParameter("linkURL");
+		Item item = new Item(id, nombre, fotoURL, linkURL);
 		out.println(d.putItem(item));
 	}
 	
 	public void recuperar(HttpServletRequest  request, PrintWriter out){
-		Item item = d.getOrCreateItem(request);
+		Item item = d.geItem(request.getParameter("id"));
 		out.println(item.getId() + " - " + item.getNombre() + " - " + item.getFotoURL() + " - " + item.getLinkURL());
-		
 	}
 	
 
