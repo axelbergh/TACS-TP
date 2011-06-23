@@ -29,19 +29,19 @@
 			<id>117189-6</id>
 		</developer>
 	</developers>
-	
+
 	<repositories>
 		<repository>
 			<id>java.net</id>
 			<url>http://download.java.net/maven/2</url>
 		</repository>
 		<repository>
-      		<id>objectify-appengine</id>
-      		<url>http://objectify-appengine.googlecode.com/svn/maven</url>
-    	</repository>
-		
+			<id>objectify-appengine</id>
+			<url>http://objectify-appengine.googlecode.com/svn/maven</url>
+		</repository>
+
 	</repositories>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -60,10 +60,17 @@
 			<artifactId>objectify</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!-- Gson: Java to Json conversion -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>1.7.1</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>tacs-tp</finalName>
-	
+
 		<resources>
 			<resource>
 				<targetPath>test</targetPath>
@@ -71,7 +78,7 @@
 				<directory>${basedir}/src/test</directory>
 			</resource>
 		</resources>
-		
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

@@ -1,6 +1,7 @@
 package org.tacs.tp.servlet;
 
 import java.io.*;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 
@@ -23,9 +24,17 @@ public class RESTConsumer extends HttpServlet {
 		if("get".equals(accion)){
 			recuperar(request, response.getWriter());
 		}
+		else if("getall".equals(accion)){
+			recuperarTodo(request, response);
+		}
 		else if("put".equals(accion)){
 			guardar(request, response.getWriter());
 		}
+	}
+
+	private void recuperarTodo(HttpServletRequest request,
+			HttpServletResponse response) {
+		
 	}
 
 	public void guardar(HttpServletRequest  request, PrintWriter out){
@@ -42,6 +51,5 @@ public class RESTConsumer extends HttpServlet {
 		Item item = d.geItem(request.getParameter("id"));
 		out.println(item.getId() + " - " + item.getNombre() + " - " + item.getFotoURL() + " - " + item.getLinkURL());
 	}
-	
 
 }
