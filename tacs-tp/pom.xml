@@ -43,6 +43,12 @@
 	</repositories>
 
 	<dependencies>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.google.appengine</groupId> -->
+<!-- 			<artifactId>appengine-java-sdk</artifactId> -->
+<!-- 			<version>1.5.1</version> -->
+<!-- 			<type>zip</type> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -67,6 +73,16 @@
 			<version>1.7.1</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>2.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.appengine</groupId>
+			<artifactId>appengine-api-1.0-sdk</artifactId>
+			<version>1.5.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>tacs-tp</finalName>
@@ -83,13 +99,16 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
+<!-- 				<version>1.2-SNAPSHOT</version> -->
 				<configuration>
 					<url>http://localhost:8080/manager</url>
 					<server>local_tomcat</server>
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>

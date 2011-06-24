@@ -54,6 +54,9 @@
 					<div class="box"> 
 						<ol id="categorias" summary="Listado de Categorias"></ol>
 					</div>
+					<div class="wishlist">
+						<a href="javascript:getWishlist()">Ver Favoritos</a>
+					</div>
 		 		</td>
 		 		<td>
 					<!--Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.-->

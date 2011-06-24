@@ -6,7 +6,6 @@ var paginaActual = 1;
 			var paisId = "MLA";  //Se esta inicializando con argentina, pero luego se puede cambiar desde el combo
 			var breadcrumb = new Array();
 			
-			
 			function completarComboPaises(){
 				$.getJSON("https://api.mercadolibre.com/sites?callback=?", function(response){
 					$("#listaPaises").html("");
@@ -190,5 +189,28 @@ var paginaActual = 1;
 				actualizarCategoriasPrincipales();
 				completarComboPaises();
 				$(".demoDropdown").dropdown();
+				
 			});
+			
+			function getWishlist(){
+				$.getJSON("consume?action=getall", function(response){
+					$("#listado").html();
+					$.each(response, function(i, item) {
+		            	 $("#listado").append(
+		            		"<li><table><tr height='100px'>"+
+	            			"<td>" +
+            				"<a href='" + item.linkURL + "' target='_blank'>" +
+            					"<img src='" + item.fotoURL + "'>" +
+            				"</a>" +
+	            			"</td>" +	
+	        				"<td>" + 
+	        					"<a href='" + item.linkURL+ "' target='_blank'>" +
+	        						item.nombre +
+	    						"</a>"+
+	        				"</td>" +   
+		           		  "</tr></table></li>");
+					});
+				});
+			}
+			
 			
