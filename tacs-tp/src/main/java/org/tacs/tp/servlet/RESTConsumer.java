@@ -1,11 +1,16 @@
 package org.tacs.tp.servlet;
 
 import java.io.*;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.tacs.tp.objectifyObjects.*;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class RESTConsumer extends HttpServlet {
 
@@ -22,7 +27,7 @@ public class RESTConsumer extends HttpServlet {
 
 		String accion = request.getParameter("action");
 		if("get".equals(accion)){
-			recuperar(request, response.getWriter());
+			recuperar(request, response);
 		}
 		else if("getall".equals(accion)){
 			recuperarTodo(request, response);
@@ -31,10 +36,10 @@ public class RESTConsumer extends HttpServlet {
 			guardar(request, response.getWriter());
 		}
 	}
-
+	
 	private void recuperarTodo(HttpServletRequest request,
-			HttpServletResponse response) {
-		
+			HttpServletResponse response) throws IOException {
+			this.enviarComoJson(d.getAllItems(), response);
 	}
 
 	public void guardar(HttpServletRequest  request, PrintWriter out){
@@ -47,9 +52,23 @@ public class RESTConsumer extends HttpServlet {
 		out.println(d.putItem(item));
 	}
 	
-	public void recuperar(HttpServletRequest  request, PrintWriter out){
-		Item item = d.geItem(request.getParameter("id"));
-		out.println(item.getId() + " - " + item.getNombre() + " - " + item.getFotoURL() + " - " + item.getLinkURL());
+	public void recuperar(HttpServletRequest  request, HttpServletResponse response) throws IOException{
+		Item item = d.getItem(request.getParameter("id"));
+		this.enviarComoJson(item, response);
+	}
+	
+	protected void enviarComoJson(Item item, HttpServletResponse response) throws IOException{
+		response.setContentType("text/javascript");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(new Gson().toJson(item));
+	}
+	
+	protected void enviarComoJson(List<Item> items, HttpServletResponse response) throws IOException{
+		response.setContentType("text/javascript");
+		response.setCharacterEncoding("UTF-8");
+		
+		Type listType = new TypeToken<List<Item>>() {}.getType();
+		response.getWriter().write(new Gson().toJson(items, listType));
 	}
 
 }
