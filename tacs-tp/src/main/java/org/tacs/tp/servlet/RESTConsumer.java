@@ -34,7 +34,6 @@ public class RESTConsumer extends HttpServlet {
 
 	private void recuperarTodo(HttpServletRequest request,
 			HttpServletResponse response) {
-		
 	}
 
 	public void guardar(HttpServletRequest  request, PrintWriter out){

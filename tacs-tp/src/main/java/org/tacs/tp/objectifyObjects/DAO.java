@@ -3,6 +3,7 @@ package org.tacs.tp.objectifyObjects;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.DAOBase;
 
+
 public class DAO extends DAOBase {
 	
 	private DAO(){};
@@ -23,6 +24,11 @@ public class DAO extends DAOBase {
 		Item found = ofy().get(Item.class, id);
 		return found;
 	}
+	
+//	public void deleteAll(){
+//		Iterable<Key<Item>> allKeys = ofy().query(Item.class).fetchKeys();
+//		ofy().delete(allKeys);
+//	}
 
 	public String putItem(Item item) {
 		ofy().put(item);

@@ -3,7 +3,7 @@ package org.tacs.tp.objectifyObjects;
 import javax.persistence.*;
 
 public class Item {
-	
+
 	@Id
 	private String id;
 	private String nombre;
@@ -19,6 +19,7 @@ public class Item {
 		this.fotoURL = fotoURL;
 		this.linkURL = linkURL;
 	}
+
 	
 	public String getNombre(){
 		return this.nombre;
