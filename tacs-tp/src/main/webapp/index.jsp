@@ -1,3 +1,51 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="net.minidev.json.JSONObject"%>
+<%@page import="net.minidev.json.JSONArray"%>
+<%@page import="net.minidev.json.JSONValue"%>
+<%@page import="org.apache.commons.codec.binary.Base64"%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+String appId = "245702182112324";
+String canvasPage = "http://apps.facebook.com/mercadolibretacs/";
+
+String authUrl = "http://www.facebook.com/dialog/oauth?client_id=" + appId + "&redirect_uri=" + canvasPage;
+String oauthToken;
+String userId;
+
+String feedUrl;
+String feedMessage;
+
+//obtengo JSON que env铆a Facebook
+String signedRequest = request.getParameter("signed_request");
+String payload = signedRequest.split("\\.")[1].replace('-', '+').replace('_', '/');
+String jsonString = new String(Base64.decodeBase64(payload.getBytes()));
+
+JSONObject json = (JSONObject)JSONValue.parse(jsonString);
+JSONObject user = (JSONObject)json.get("user");
+
+try{
+    //obtengo informaci贸n del usuario
+    oauthToken = json.get("oauth_token").toString();
+    userId = json.get("user_id").toString();
+
+    out.print("<br><br>Usuario logeado y permisos aceptados para la aplicaci贸n TACS-TP<br><br>");
+
+    //construyo boton para publicar en muro
+    feedMessage = URLEncoder.encode("Test publicaci贸n en muro TACS - UTN","UTF-8");
+    feedUrl = "http://www.facebook.com/dialog/feed?app_id=" + appId + "&redirect_uri=" + canvasPage + "&message=" + feedMessage;
+    
+    out.print("<input type=\"button\" value=\"Test Publicaci贸n en Muro\" onClick=\"top.location.href='" + feedUrl + "' />");
+
+}catch(NullPointerException e){
+    //el usuario no est谩 logeado o no autoriz贸 que la aplicaci贸n acceda a sus datos
+    out.print("<script> top.location.href='" + authUrl + "'</script>");
+}
+
+
+%>
+
 <html>
 	<head>
 	
@@ -20,7 +68,7 @@
 				</td>
 				<td>
 					<div class="demoDropdown">
-					    <span>Pa韘</span>
+					    <span>Pa铆s</span>
 					    <ul id="listaPaises"></ul>
 				    </div>
 				</td>
@@ -35,7 +83,7 @@
 		<table width="100%">	
 			<tr>
 				<td colspan="100%">
-					Ingrese una palabra para efectuar la b鷖queda (ejemplos: "argentina","brasil","boca","ford")
+					Ingrese una palabra para efectuar la b煤squeda (ejemplos: "argentina","brasil","boca","ford")
 				</td>
 			</tr>
 			<tr>
@@ -62,8 +110,8 @@
 					<!--Hay un table adentro del tag "li", por eso se ven medio raras algunas filas. Deberiamos hacer estilos y sacar ese table.-->
 					<br/>
 		 			<div class="box"> 
+		 				<div id="paginador"></div>
 						<ol id="listado" summary="Listado de Resultados"></ol>
-						<div id="paginador"></div>
 					</div> 
 		 		</td>
 			</tr>

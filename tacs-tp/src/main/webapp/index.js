@@ -1,5 +1,5 @@
 var paginaActual = 1;
-			var cantidadPorPagina = 10;
+			var cantidadPorPagina = 7;
 			var resultadosTotales = 0;
 			var busqueda = "";
 			var categoria = "";
@@ -169,7 +169,7 @@ var paginaActual = 1;
 				var paginaLimiteSup = Math.min(cantPaginas,(paginaActual + pagDesp));
 	
 				
-				var paginadorHTML = "<h2>Paginaciï¿½n</h2><ul class='pagination'>";
+				var paginadorHTML = "<h2>Paginación</h2><ul class='pagination'>";
 				if (paginaActual > 1) paginadorHTML += "<li><a type='prev' href='javascript:irAPagina(" + (paginaActual-1) + ")'>&lt; Anterior</a></li>";
 				for(pagina = paginaLimiteInf ; pagina <= paginaLimiteSup ; pagina++){
 					var selected = "";
