@@ -23,7 +23,7 @@ String payload = signedRequest.split("\\.")[1].replace('-', '+').replace('_', '/
 String jsonString = new String(Base64.decodeBase64(payload.getBytes()));
 
 JSONObject json = (JSONObject)JSONValue.parse(jsonString);
-JSONObject user = (JSONObject)json.get("user");
+//JSONObject user = (JSONObject)json.get("user");
 
 try{
     //obtengo información del usuario
@@ -33,12 +33,12 @@ try{
     out.print("<br><br>Usuario logeado y permisos aceptados para la aplicación TACS-TP<br><br>");
 
     //construyo boton para publicar en muro
-    feedMessage = URLEncoder.encode("Test publicación en muro TACS - UTN","UTF-8");
-    feedUrl = "http://www.facebook.com/dialog/feed?app_id=" + appId + "&redirect_uri=" + canvasPage + "&message=" + feedMessage;
-    
-    out.print("<input type=\"button\" value=\"Test Publicación en Muro\" onClick=\"top.location.href='" + feedUrl + "' />");
+    feedMessage = URLEncoder.encode("<img src='http://profile.ak.fbcdn.net/hprofile-ak-snc4/27404_1226188310_8908_n.jpg'> ","UTF-8");
+    feedUrl = "http://www.facebook.com/dialog/feed?app_id=" + appId + "&redirect_uri=" + canvasPage;
 
-}catch(NullPointerException e){
+    out.print("<script type=\"text/javascript\"> var userId='" + userId + "'; feedUrl=' " + feedUrl + "';</script>");
+    
+}catch(Exception e){
     //el usuario no está logeado o no autorizó que la aplicación acceda a sus datos
     out.print("<script> top.location.href='" + authUrl + "'</script>");
 }
@@ -53,15 +53,13 @@ try{
 	<link rel="stylesheet" href="ml.css" />
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 	<script type="text/javascript" src="chico-0.6.2.js"></script>
-		
-	<script type="text/javascript" src="index.js">    
-	</script>
+	<script type="text/javascript" src="index.js"></script>
 	
 		
 	</head>
 
 	<body>
-		<table width="100%">
+	<table width="100%">
 			<tr>
 				<td align="center">
 					<h3>TACS - Mercado Libre</h3> 
@@ -104,6 +102,9 @@ try{
 					</div>
 					<div class="wishlist">
 						<a href="javascript:getWishlist()">Ver Favoritos</a>
+					</div>
+					<div class="wishlist">
+						<a href="javascript:muro()">Publicar Favoritos</a>
 					</div>
 		 		</td>
 		 		<td>

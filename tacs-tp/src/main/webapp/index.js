@@ -5,6 +5,11 @@ var paginaActual = 1;
 			var categoria = "";
 			var paisId = "MLA";  //Se esta inicializando con argentina, pero luego se puede cambiar desde el combo
 			var breadcrumb = new Array();
+			var uid = "";
+			
+			function verID(){
+				alert(userId);
+			}
 			
 			function completarComboPaises(){
 				$.getJSON("https://api.mercadolibre.com/sites?callback=?", function(response){
@@ -123,11 +128,9 @@ var paginaActual = 1;
 	        				"<td>" + traducir(item.condition) + "</td>" + 
 	        				"<td>" + traducir(item.buying_mode) + "</td>" + 
 	        				"<td>" + item.address.city_name + "</td>" +     
-	        				"<td>"  + 
-        						"<a href='consume?action=put&id=" + escape(item.id) + "&nombre=" + escape(item.title) + "&fotoURL=" + escape(item.thumbnail) + "&linkURL=" + escape(item.permalink) + "' target='_blank'>" +
-        							"Agregar a favoritos" +
-    							"</a>"+
-							"</td>" +     
+	        				"<td>"  +
+	        				"<a href='consume?action=put&uid=" + userId + "&id=" + escape(item.id) + "&nombre=" + escape(item.title) + "&fotoURL=" + escape(item.thumbnail) + "&linkURL=" + escape(item.permalink) + "' target='_blank'>" + "Agregar a favoritos" + "</a>" +
+	        				"</td>" +     
 	           		  "</tr></table></li>");
 	            });  
 	            
@@ -192,8 +195,22 @@ var paginaActual = 1;
 				
 			});
 			
+			function addToWishlist(id, title, thumbnail, permalink){
+				$.ajax({
+				  url: "consume?action=put&id="+id+"&nombre="+title+"&fotoURL="+thumbnail+"&linkURL="+permalink+"",
+				  context: document.body,
+				  success: function(){
+				    alert('funco');
+				  }
+				});
+			}
+			
+			function getUid(uidP){
+				uid = uidP;
+			}
+			
 			function getWishlist(){
-				$.getJSON("consume?action=getall", function(response){
+				$.getJSON("consume?action=get&uid=" + userId, function(response){
 					$("#listado").html();
 					$.each(response, function(i, item) {
 		            	 $("#listado").append(
@@ -210,6 +227,17 @@ var paginaActual = 1;
 	        				"</td>" +   
 		           		  "</tr></table></li>");
 					});
+				});
+			}
+			
+			function muro(){
+				$.getJSON("consume?action=get&uid=" + userId, function(response){
+					var feedString = "";
+					$.each(response, function(i, item) {
+						feedString += item.linkURL + " ";
+					});
+					
+					top.location.href= feedUrl + "&message=" + feedString; 
 				});
 			}
 			

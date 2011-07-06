@@ -44,16 +44,17 @@ public class RESTConsumer extends HttpServlet {
 
 	public void guardar(HttpServletRequest  request, PrintWriter out){
 
+		String uid = request.getParameter("uid");
 		String id = request.getParameter("id");
 		String nombre = request.getParameter("nombre");
 		String fotoURL = request.getParameter("fotoURL");
 		String linkURL = request.getParameter("linkURL");
-		Item item = new Item(id, nombre, fotoURL, linkURL);
+		Item item = new Item(uid, id, nombre, fotoURL, linkURL);
 		out.println(d.putItem(item));
 	}
 	
 	public void recuperar(HttpServletRequest  request, HttpServletResponse response) throws IOException{
-		Item item = d.getItem(request.getParameter("id"));
+		List<Item> item = d.getWishlist(request.getParameter("uid"));
 		this.enviarComoJson(item, response);
 	}
 	
